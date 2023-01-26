@@ -1,4 +1,6 @@
 package org.helsinki.back.controller;
+
+import org.helsinki.back.MapImage;
 import org.helsinki.back.links.MapLinks;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,16 +16,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 public class MapController {
     @Autowired
-    
-	@CrossOrigin(origins = "http://localhost:3000")
-	@GetMapping(path = MapLinks.GET_MAP)
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping(path = MapLinks.GET_MAP)
     public ResponseEntity<?> getMap() {
 
         System.out.println("Map requested");
-        
-        String res = "Hello World";
+
+        MapImage mi = new MapImage();
+
+        String res = mi.getImageString();
         return ResponseEntity.ok(res);
     }
-	
-	//todo POST method with params
+
+    // todo POST method with params
 }
