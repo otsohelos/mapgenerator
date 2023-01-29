@@ -1,4 +1,4 @@
-# Viikkoraportti, viikko1
+# Viikkoraportti, viikko 1
 ## Mitä olen tehnyt tällä viikolla
 
 Tällä viikolla keskityin projektin suunnitteluun ja aiheen valintaan. Tapaamisessa kurssin ohjaajan kanssa keskustelimme aiemmalle kurssille tekemästäni [kartanluontiohjelmistosta](https://github.com/otsohelos/ot_harjoitustyo) ja siitä, voisiko sen oppeja käyttää hyödyksi tämän kurssin töissä. Kävi nopeasti ilmi, että suoraan vanhan päälle rakentamista ei kannata tehdä, mutta koska olen haaveillut paremman karttageneraattorin tekemisestä ja olen aina rakastanut niin todellisia kuin kuvitteellisia karttoja, päädyin pohdinnan jälkeen kuitenkin tekemään uuden karttageneraattorin. Aiemmasta poiketen teen nyt enemmän taustatutkimusta algoritmien suhteen ja teen ohjelman myös alun alkaen web-sovellukseksi. Käyttämäni algoritmit tulevat olemaan monimutkaisempia ja kartan ulkonäkö erilainen kuin aiemmin.
