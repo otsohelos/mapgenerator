@@ -24,4 +24,13 @@ public class Vertex {
     public String getYString() {
         return Integer.toString(y);
     }
+
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
 }

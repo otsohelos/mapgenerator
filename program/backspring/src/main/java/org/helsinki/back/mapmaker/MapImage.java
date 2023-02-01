@@ -7,6 +7,13 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import org.springframework.util.SystemPropertyUtils;
+
+import java.awt.Polygon;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.PathIterator;
+
+import ch.qos.logback.core.joran.spi.NewRuleProvider;
 
 /**
  * Glass that generates the map image and conversts it to SVG string
@@ -46,36 +53,63 @@ public class MapImage {
                 for (Coordinate c : coordinates) {
                     int distance = calculator.getPointCoordinateDistance(c, i, j);
                     if (distance <= lowestDistance) {
-                        distances.put(c, (int) Math.round(distance));
+                        distances.put(c, distance);
                         lowestDistance = distance;
                     }
                 }
                 if (Collections.frequency(distances.values(), lowestDistance) >= 3) {
-                    double newLowest = lowestDistance;
+                    int newLowest = lowestDistance;
                     List<Coordinate> vertexCoords = distances
                             .entrySet()
                             .stream()
-                            .filter(entry -> Objects.equals(entry.getValue(), newLowest))
+                            .filter(entry -> entry.getValue() == newLowest)
                             .map(entry -> entry.getKey())
                             .collect(Collectors.toList());
-
-                    vertices.add(new Vertex(i, j, vertexCoords));
+                    Vertex newVertex = new Vertex(i, j, vertexCoords);
+                    vertices.add(newVertex);
+                    for (Coordinate c : vertexCoords) {
+                        c.addVertex(newVertex);
+                    }
                 }
-
             }
         }
-        System.out.println("Vertices:");
+        System.out.println(vertices.size() + " vertices:");
 
         for (Vertex v : vertices) {
             System.out.println(v.getCoordinatesString());
         }
+        ArrayList<Polygon> polygons = new ArrayList<>();
 
+        for (Coordinate coordinate : coordinates) {
+            int numberOfCoords = coordinate.getVertices().size();
+            int[] xs = new int[numberOfCoords];
+            int[] ys = new int[numberOfCoords];
+            int i = 0;
+            for (Vertex v : coordinate.getVertices()) {
+                xs[i] = v.getX();
+                ys[i] = v.getY();
+                i++;
+            }
+            polygons.add(new Polygon(xs, ys, numberOfCoords));
+        }
+        String polygonString = "";
+
+        for (Polygon polygon: polygons) {
+            PathIterator pi = polygon.getPathIterator(null);
+            polygonString = polygonString + "<polygon points=";
+            while (!pi.isDone()) {
+                System.out.println(pi.SEG_LINETO);
+                pi.next();
+            }
+            polygonString = polygonString + polygon.toString();
+
+        }
+
+        System.out.println("polygons: " + polygonString);
         String vertexString = "";
-
-
-
+        
         for (Vertex vertex : vertices) {
-            coordinateString = coordinateString
+            vertexString = vertexString
                     + "<circle cx='"
                     + vertex.getXString()
                     + "' cy='"
@@ -89,6 +123,7 @@ public class MapImage {
                 + mapSize
                 + "'>"
                 + coordinateString
+                + vertexString
                 + "</svg>";
 
         return imageString;

@@ -15,6 +15,6 @@ public class Calculator {
 
     public int getPointCoordinateDistance(Coordinate c, int x, int y) {
         double distance = Math.sqrt(Math.pow((c.getX() - x), 2) + Math.pow((c.getY() - y), 2));
-        return (int) Math.round(distance);
+        return (int) distance;
     }
 }
