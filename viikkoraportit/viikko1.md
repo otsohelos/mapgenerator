@@ -11,7 +11,7 @@ Tällä viikolla olen selvitellyt ohjelman aloittamiseen tarvittavia asioita. Ol
 
 Opin paljon erilaisista algoritmeista ja niiden käyttötavoista. Verestin gitin käyttöön ja projektinhallintaan liittyvi tietojani.
 
-## Mikä jäi epäselväksi tai tuottanut vaikeuksia
+## Mikä jäi epäselväksi tai tuotti vaikeuksia
 
 Toistaiseksi en tiedä ihan hirveästi tarvittavista algoritmeista, vaikka olen lukenut muutaman artikkelin aiheesta. Maan korkeudet generoivat algoritmit vaikuttavat suhteellisen selviltä, mutta vesialueita luovat algoritmit tuottavat enemmän haasteita. Vesialueet on mahdollista määritellä hyvin yksinkertaisten sääntöjen mukaan, mutta parempi algoritmi olisi sellainen, joka simuloisi sadetta ja veden kertymistä. Jokaisessa ruudussa yhtäaikaisesti ja lukuisien iteraatioiden ajan toteutettava veden valuminen vaatisi hyvin tehokkaan paikallisen etsintäalgoritmin, enkä toistaiseksi tiedä, mikä tällainen olisi. Jos mahdollista, jätän tämän algoritmin valinnan myöhempään vaiheeseen, kun tiedän, kuinka kauan aikaa korkeuksien generointiin tarvittavat algoritmit vievät, ja tarvittaessa generoin vedet yksinkertaisella korkeuteen perustuvalla menetelmällä.
 

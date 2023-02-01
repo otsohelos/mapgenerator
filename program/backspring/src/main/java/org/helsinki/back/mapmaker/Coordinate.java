@@ -9,11 +9,19 @@ public class Coordinate {
         this.y = y;
     }
     
-    public String getX() {
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public String getXString() {
         return Integer.toString(x);
     }
 
-    public String getY() {
+    public String getYString() {
         return Integer.toString(y);
     }
 }

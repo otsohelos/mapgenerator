@@ -15,7 +15,7 @@ Olen saanut ohjelman konfiguroitua ja backendin ja frontendin pohjta toimimaan. 
 
 Opin yhden tavan luoda Java/React-projekti ja saada se toimimaan. Opettelin perusasiat SVG-grafiikan luonnista. Opin myös lisää algoritmeista. Kertasin tietojani Javadocien, yksikkötestien ja testausraportoinnin suhteen.
 
-## Mikä jäi epäselväksi tai tuottanut vaikeuksia
+## Mikä jäi epäselväksi tai tuotti vaikeuksia
 
 Ohjelman perusrakenteen luominen ja konfigurointi oli vaikeaa ja ajoittain epätoivoa herättävää vaikka päättyikin sitten voittoon. Tällä hetkellä päänvaivaa tuottaa itselleni vielä toistaiseksi melko vieras SVG-grafiikka ja se, miten martan tulevia vaiheita pystyy parhaiten sen avulla visualisoimaan.
 
