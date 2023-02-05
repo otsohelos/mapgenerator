@@ -9,9 +9,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.util.SystemPropertyUtils;
 
-import java.awt.Polygon;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.PathIterator;
 
 import ch.qos.logback.core.joran.spi.NewRuleProvider;
 
@@ -95,7 +92,6 @@ public class MapImage {
         String polygonString = "";
 
         for (Polygon polygon: polygons) {
-            PathIterator pi = polygon.getPathIterator(null);
             polygonString = polygonString + "<polygon points=";
             while (!pi.isDone()) {
                 System.out.println(pi.SEG_LINETO);
