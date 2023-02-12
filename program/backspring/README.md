@@ -3,7 +3,7 @@
 #### Test
 ```mvn test```
 
-#### Text coverage report
+#### Test coverage report
 
 ```mvn jacoco:report ```
 

@@ -19,7 +19,7 @@ public class Voronoi {
     }
 
     public void generate() {
-
+        long startTime = System.currentTimeMillis();
         ArrayList<Edge> edges = new ArrayList<>();
 
         coordinates.sort((c1, c2) -> c2.getY() - c1.getY());
@@ -37,7 +37,10 @@ public class Voronoi {
                 handleSeedPoint(e.getCoordinate());
             } else {
             }
+
         }
+        long endTime = System.currentTimeMillis();
+        System.out.println("Generating Voronoi took " + (endTime - startTime) + " ms.");
     }
 
     /**
