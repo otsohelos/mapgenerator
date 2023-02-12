@@ -32,7 +32,6 @@ public class VoronoiTest {
 
     @Test
     void rootParabolaTest() {
-
         assertTrue(voronoi.getRootParabola() == null);
         voronoi.handleSeedPoint(c1);
         assertFalse(voronoi.getRootParabola() == null);
