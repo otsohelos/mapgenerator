@@ -1,16 +1,6 @@
 package org.helsinki.back.mapmaker;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
-import org.springframework.util.SystemPropertyUtils;
-
-
-import ch.qos.logback.core.joran.spi.NewRuleProvider;
 
 /**
  * Glass that generates the map image and conversts it to SVG string
@@ -26,7 +16,6 @@ public class MapImage {
 
         int mapSize = 500;
         CoordinateCreator cc = new CoordinateCreator(mapSize);
-        Calculator calculator = new Calculator();
 
         ArrayList<Coordinate> coordinates = cc.createCoordinates();
 
@@ -41,42 +30,46 @@ public class MapImage {
                     + "' r='5' stroke='black' stroke-width='0' fill='white' />";
         }
 
-        ArrayList<Vertex> vertices = new ArrayList<>();
+        Voronoi voronoi = new Voronoi(coordinates, mapSize);
+        voronoi.generate();
 
-        for (int i = 0; i < mapSize; i++) {
-            for (int j = 0; j < mapSize; j++) {
-                HashMap<Coordinate, Integer> distances = new HashMap<>();
-                int lowestDistance = mapSize;
-                for (Coordinate c : coordinates) {
-                    int distance = calculator.getPointCoordinateDistance(c, i, j);
-                    if (distance <= lowestDistance) {
-                        distances.put(c, distance);
-                        lowestDistance = distance;
-                    }
-                }
-                if (Collections.frequency(distances.values(), lowestDistance) >= 3) {
-                    int newLowest = lowestDistance;
-                    List<Coordinate> vertexCoords = distances
-                            .entrySet()
-                            .stream()
-                            .filter(entry -> entry.getValue() == newLowest)
-                            .map(entry -> entry.getKey())
-                            .collect(Collectors.toList());
-                    Vertex newVertex = new Vertex(i, j, vertexCoords);
-                    vertices.add(newVertex);
-                    for (Coordinate c : vertexCoords) {
-                        c.addVertex(newVertex);
-                    }
-                }
-            }
-        }
-        System.out.println(vertices.size() + " vertices:");
-
-        for (Vertex v : vertices) {
-            System.out.println(v.getCoordinatesString());
-        }
+        /*
+         * for (int i = 0; i < mapSize; i++) {
+         * for (int j = 0; j < mapSize; j++) {
+         * HashMap<Coordinate, Integer> distances = new HashMap<>();
+         * int lowestDistance = mapSize;
+         * for (Coordinate c : coordinates) {
+         * int distance = calculator.getPointCoordinateDistance(c, i, j);
+         * if (distance <= lowestDistance) {
+         * distances.put(c, distance);
+         * lowestDistance = distance;
+         * }
+         * }
+         * if (Collections.frequency(distances.values(), lowestDistance) >= 3) {
+         * int newLowest = lowestDistance;
+         * List<Coordinate> vertexCoords = distances
+         * .entrySet()
+         * .stream()
+         * .filter(entry -> entry.getValue() == newLowest)
+         * .map(entry -> entry.getKey())
+         * .collect(Collectors.toList());
+         * Vertex newVertex = new Vertex(i, j, vertexCoords);
+         * vertices.add(newVertex);
+         * for (Coordinate c : vertexCoords) {
+         * c.addVertex(newVertex);
+         * }
+         * }
+         * }
+         * }
+         * System.out.println(vertices.size() + " vertices:");
+         * 
+         * for (Vertex v : vertices) {
+         * System.out.println(v.getCoordinatesString());
+         * }
+         */
         ArrayList<Polygon> polygons = new ArrayList<>();
 
+        Parabola rootParabola = null;
         for (Coordinate coordinate : coordinates) {
             int numberOfCoords = coordinate.getVertices().size();
             int[] xs = new int[numberOfCoords];
@@ -91,19 +84,22 @@ public class MapImage {
         }
         String polygonString = "";
 
-        for (Polygon polygon: polygons) {
-            polygonString = polygonString + "<polygon points=";
-            while (!pi.isDone()) {
-                System.out.println(pi.SEG_LINETO);
-                pi.next();
-            }
-            polygonString = polygonString + polygon.toString();
+        /*
+         * for (Polygon polygon: polygons) {
+         * polygonString = polygonString + "<polygon points=";
+         * while (!pi.isDone()) {
+         * System.out.println(pi.SEG_LINETO);
+         * pi.next();
+         * }
+         * polygonString = polygonString + polygon.toString();
+         * 
+         * }
+         */
 
-        }
-
-        System.out.println("polygons: " + polygonString);
+        //System.out.println("polygons: " + polygonString);
+        ArrayList<Vertex> vertices = voronoi.getVertices();
         String vertexString = "";
-        
+
         for (Vertex vertex : vertices) {
             vertexString = vertexString
                     + "<circle cx='"
@@ -124,5 +120,6 @@ public class MapImage {
 
         return imageString;
     }
+
 
 }

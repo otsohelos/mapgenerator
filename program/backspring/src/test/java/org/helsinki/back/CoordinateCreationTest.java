@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 public class CoordinateCreationTest {
     @Test
-    void demoTestMethod() {
+    void coordinateCreationTest() {
         Coordinate c = new Coordinate(10, 8);
 
         assertTrue(c.getXString().equals("10"));
