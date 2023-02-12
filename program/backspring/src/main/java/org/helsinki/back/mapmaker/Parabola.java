@@ -5,6 +5,7 @@ public class Parabola {
     private boolean isCoordinate;
     private Parabola leftChild;
     private Parabola rightChild;
+    private Parabola parent;
     private Event event;
 
     public Parabola(Coordinate coordinate) {
@@ -18,6 +19,20 @@ public class Parabola {
 
     public boolean isCoordinate() {
         return isCoordinate;
+    }
+
+    public void setLeftChild(Parabola parabola) {
+        leftChild = parabola;
+        parabola.setParent(this);
+    }
+
+    public void setRightChild(Parabola parabola) {
+        rightChild = parabola;
+        parabola.parent = this;
+    }
+
+    public void setParent(Parabola parabola) {
+        parent = parabola;
     }
 
     public Parabola getRightChild() {
@@ -46,6 +61,10 @@ public class Parabola {
 
     public Coordinate getCoordinate() {
         return this.coordinate;
+    }
+
+    public Parabola getParent() {
+        return parent;
     }
 
 }
