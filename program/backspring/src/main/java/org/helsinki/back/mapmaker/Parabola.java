@@ -7,6 +7,7 @@ public class Parabola {
     private Parabola rightChild;
     private Parabola parent;
     private Event event;
+    private Edge edge;
 
     public Parabola(Coordinate coordinate) {
         this.coordinate = coordinate;
@@ -19,6 +20,10 @@ public class Parabola {
 
     public boolean isCoordinate() {
         return isCoordinate;
+    }
+
+    public void setIsCoordinate(boolean value) {
+        this.isCoordinate = value;
     }
 
     public void setLeftChild(Parabola parabola) {
@@ -35,25 +40,41 @@ public class Parabola {
         parent = parabola;
     }
 
+    public void setEvent(Event e) {
+        event = e;
+    }
+
+    public void setEdge(Edge e) {
+        this.edge = e;
+    }
+
+    public Parabola getLeftChild() {
+        return this.leftChild;
+    }
+
     public Parabola getRightChild() {
+        return this.rightChild;
+    }
+
+    public Parabola getRightCoordinateChild() {
         Parabola child = rightChild;
         if (child == null) {
             return child;
         }
         if (!child.isCoordinate) {
-            child = child.getRightChild();
+            child = child.getRightCoordinateChild();
         }
         System.out.println("child type is coordinate? " + child.isCoordinate());
         return child;
     }
 
-    public Parabola getLeftChild() {
+    public Parabola getLeftCoordinateChild() {
         Parabola child = leftChild;
         if (child == null) {
             return child;
         }
         if (!child.isCoordinate) {
-            child = child.getLeftChild();
+            child = child.getLeftCoordinateChild();
         }
         System.out.println("child type is coordinate? " + child.isCoordinate());
         return child;
@@ -67,4 +88,43 @@ public class Parabola {
         return parent;
     }
 
+    public Event getEvent() {
+        return event;
+    }
+
+    public Parabola getLeftParent() {
+        Parabola parentCandidate = parent;
+        if (parentCandidate == null) {
+            return null;
+        }
+        Parabola par = this;
+        while (parent.getLeftChild() == par) {
+            if (parentCandidate.getParent() == null) {
+                return null;
+            }
+            par = parentCandidate;
+            parentCandidate = parentCandidate.getParent();
+        }
+        return parentCandidate;
+    }
+
+    public Parabola getRightParent() {
+        Parabola parentCandidate = parent;
+        if (parentCandidate == null) {
+            return null;
+        }
+        Parabola par = this;
+        while (parent.getRightChild() == par) {
+            if (parentCandidate.getParent() == null) {
+                return null;
+            }
+            par = parentCandidate;
+            parentCandidate = parentCandidate.getParent();
+        }
+        return parentCandidate;
+    }
+
+    public Edge getEdge() {
+        return edge;
+    }
 }

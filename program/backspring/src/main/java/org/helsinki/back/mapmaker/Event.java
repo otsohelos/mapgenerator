@@ -7,7 +7,7 @@ public class Event implements Comparable<Event> {
 
     Coordinate coordinate;
     int type;
-    // Parabola parabola; // only if this is a vertex event
+    Parabola parabola;
 
     public Event(Coordinate coordinate, int type) {
         this.coordinate = coordinate;
@@ -16,7 +16,16 @@ public class Event implements Comparable<Event> {
     }
 
     public int compareTo(Event other) {
-        return this.coordinate.getX() - other.coordinate.getX();
+        int comparison = this.coordinate.getY() - other.coordinate.getY();
+        if (comparison == 0) {
+            comparison = this.coordinate.getX() - other.coordinate.getX();
+        }
+
+        return comparison;
+    }
+
+    public void setParabola(Parabola par) {
+        this.parabola = par;
     }
 
     public String getCoords() {
@@ -26,4 +35,9 @@ public class Event implements Comparable<Event> {
     public Coordinate getCoordinate() {
         return this.coordinate;
     }
+
+    public Parabola getParabola() {
+        return this.parabola;
+    }
+
 }
