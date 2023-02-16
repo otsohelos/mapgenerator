@@ -21,7 +21,6 @@ public class CoordinateCreator {
     public ArrayList<Coordinate> createCoordinates() {
         Random rnd = new Random();
         ArrayList<Coordinate> coordinates = new ArrayList<>();
-        Calculator calculator = new Calculator();
         for (int i = 0; i < mapSize / 4; i++) {
             int x = rnd.nextInt(mapSize);
             int y = rnd.nextInt(mapSize);
@@ -29,7 +28,7 @@ public class CoordinateCreator {
             Coordinate coordinate = new Coordinate(x, y);
             boolean coordinateIsOk = true;
             for (Coordinate c : coordinates) {
-                if (calculator.getCoordinateDistance(coordinate, c) < acceptableDistance) {
+                if (Calculator.getCoordinateDistance(coordinate, c) < acceptableDistance) {
                     coordinateIsOk = false;
                 }
             }

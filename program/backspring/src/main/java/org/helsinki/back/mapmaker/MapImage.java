@@ -14,7 +14,7 @@ public class MapImage {
      */
     public String getImageString() {
 
-        int mapSize = 500;
+        int mapSize = 1000;
         CoordinateCreator cc = new CoordinateCreator(mapSize);
 
         ArrayList<Coordinate> coordinates = cc.createCoordinates();
@@ -69,7 +69,6 @@ public class MapImage {
          */
         ArrayList<Polygon> polygons = new ArrayList<>();
 
-        Parabola rootParabola = null;
         for (Coordinate coordinate : coordinates) {
             int numberOfCoords = coordinate.getVertices().size();
             int[] xs = new int[numberOfCoords];
@@ -82,7 +81,8 @@ public class MapImage {
             }
             polygons.add(new Polygon(xs, ys, numberOfCoords));
         }
-        String polygonString = "";
+
+        // String polygonString = "";
 
         /*
          * for (Polygon polygon: polygons) {
@@ -96,17 +96,35 @@ public class MapImage {
          * }
          */
 
-        //System.out.println("polygons: " + polygonString);
-        ArrayList<Vertex> vertices = voronoi.getVertices();
+        // System.out.println("polygons: " + polygonString);
+        ArrayList<Edge> edges = voronoi.getEdges();
         String vertexString = "";
 
-        for (Vertex vertex : vertices) {
+        for (Edge edge : edges) {
             vertexString = vertexString
-                    + "<circle cx='"
-                    + vertex.getXString()
-                    + "' cy='"
-                    + vertex.getYString()
-                    + "' r='3' stroke='teal' stroke-width='0' fill='teal' />";
+                    + "<line x1='"
+                    + edge.getStartX()
+                    + "' y1='"
+                    + edge.getStartY()
+
+                    + "' x2='"
+                    + edge.getEndX()
+                    + "' y2='"
+                    + edge.getEndY()
+                    + "' style='stroke:rgb(255,0,0);stroke-width:2' />";
+
+            /*
+             * + "<circle cx='"
+             * + edge.getStartX()
+             * + "' cy='"
+             * + edge.getStartY()
+             * + "' r='3' stroke='teal' stroke-width='0' fill='teal' />"
+             * + "<circle cx='"
+             * + edge.getEndX()
+             * + "' cy='"
+             * + edge.getEndY()
+             * + "' r='3' stroke='red' stroke-width='0' fill='red' />";
+             */
         }
 
         String imageString = "<svg  xmlns='http://www.w3.org/2000/svg' version='1.2' baseProfile='tiny' width='"
@@ -120,6 +138,5 @@ public class MapImage {
 
         return imageString;
     }
-
 
 }

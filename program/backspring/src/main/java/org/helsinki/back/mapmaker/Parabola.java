@@ -18,10 +18,6 @@ public class Parabola {
         this.isCoordinate = false;
     }
 
-    public boolean isCoordinate() {
-        return isCoordinate;
-    }
-
     public void setIsCoordinate(boolean value) {
         this.isCoordinate = value;
     }
@@ -33,7 +29,7 @@ public class Parabola {
 
     public void setRightChild(Parabola parabola) {
         rightChild = parabola;
-        parabola.parent = this;
+        parabola.setParent(this);
     }
 
     public void setParent(Parabola parabola) {
@@ -56,27 +52,25 @@ public class Parabola {
         return this.rightChild;
     }
 
-    public Parabola getRightCoordinateChild() {
-        Parabola child = rightChild;
-        if (child == null) {
-            return child;
+    public static Parabola getLeftCoordinateChild(Parabola p) {
+        if (p == null) {
+            return null;
         }
-        if (!child.isCoordinate) {
-            child = child.getRightCoordinateChild();
+        Parabola child = p.getLeftChild();
+        while (!child.isCoordinate()) {
+            child = child.getRightChild();
         }
-        System.out.println("child type is coordinate? " + child.isCoordinate());
         return child;
     }
 
-    public Parabola getLeftCoordinateChild() {
-        Parabola child = leftChild;
-        if (child == null) {
-            return child;
+    public static Parabola getRightCoordinateChild(Parabola p) {
+        if (p == null) {
+            return null;
         }
-        if (!child.isCoordinate) {
-            child = child.getLeftCoordinateChild();
+        Parabola child = p.getRightChild();
+        while (!child.isCoordinate()) {
+            child = child.getLeftChild();
         }
-        System.out.println("child type is coordinate? " + child.isCoordinate());
         return child;
     }
 
@@ -92,39 +86,53 @@ public class Parabola {
         return event;
     }
 
-    public Parabola getLeftParent() {
-        Parabola parentCandidate = parent;
-        if (parentCandidate == null) {
+    /**
+     * Get the closest parent for which a given parabola is a right child (or
+     * grandchild etc.)
+     * 
+     * @param parabola
+     * @return parent parabola
+     */
+    public static Parabola getLeftParent(Parabola parabola) {
+        Parabola parent = parabola.getParent();
+        if (parent == null)
             return null;
-        }
-        Parabola par = this;
-        while (parent.getLeftChild() == par) {
-            if (parentCandidate.getParent() == null) {
+        Parabola last = parabola;
+        while (parent.getLeftChild() == last) {
+            if (parent.getParent() == null)
                 return null;
-            }
-            par = parentCandidate;
-            parentCandidate = parentCandidate.getParent();
+            last = parent;
+            parent = parent.getParent();
         }
-        return parentCandidate;
+        return parent;
     }
 
-    public Parabola getRightParent() {
-        Parabola parentCandidate = parent;
-        if (parentCandidate == null) {
+    /**
+     * Get the closest parent for which a given parabola is a left child (or
+     * grandchild etc.)
+     * 
+     * @param parabola
+     * @return parent parabola
+     */
+    public static Parabola getRightParent(Parabola parabola) {
+        Parabola parent = parabola.getParent();
+        if (parent == null)
             return null;
-        }
-        Parabola par = this;
-        while (parent.getRightChild() == par) {
-            if (parentCandidate.getParent() == null) {
+        Parabola last = parabola;
+        while (parent.getRightChild() == last) {
+            if (parent.getParent() == null)
                 return null;
-            }
-            par = parentCandidate;
-            parentCandidate = parentCandidate.getParent();
+            last = parent;
+            parent = parent.getParent();
         }
-        return parentCandidate;
+        return parent;
     }
 
     public Edge getEdge() {
         return edge;
+    }
+
+    public boolean isCoordinate() {
+        return isCoordinate;
     }
 }

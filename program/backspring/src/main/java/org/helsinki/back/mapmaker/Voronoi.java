@@ -12,20 +12,19 @@ public class Voronoi {
     private ArrayList<Coordinate> coordinates;
     private int currentY;
     private ArrayList<Vertex> vertices;
-    private int mapSize;
+    // private int mapSize;
     private PriorityQueue<Event> events;
-    private Calculator calculator;
     private ArrayList<Edge> edges;
+    private int circleEvents;
 
     public Voronoi(ArrayList<Coordinate> coordinates, int mapSize) {
         this.rootParabola = null;
         this.coordinates = coordinates;
         this.vertices = new ArrayList<>();
-        this.mapSize = mapSize;
+        // this.mapSize = mapSize;
         this.events = new PriorityQueue<>();
-        this.calculator = new Calculator();
         this.edges = new ArrayList<>();
-
+        this.circleEvents = 0;
     }
 
     /**
@@ -38,7 +37,7 @@ public class Voronoi {
 
         for (Coordinate c : coordinates) {
             events.add(new Event(c, 0));
-            System.out.println(c.getY());
+            // System.out.println(c.getY());
         }
 
         while (!events.isEmpty()) {
@@ -49,11 +48,23 @@ public class Voronoi {
             } else {
                 handleCircleEvent(e);
             }
-
         }
+
         long endTime = System.currentTimeMillis();
         System.out.println("Generating Voronoi took " + (endTime - startTime) + " ms.");
+        System.out.println("Coordinates: " + coordinates.size());
         System.out.println("We have " + edges.size() + " edges");
+        System.out.println(circleEvents + " circle events");
+
+        endEdges(rootParabola);
+        for (Edge edge : edges) {
+            if (edge.getNeighbor() != null) {
+                edge.setStart(edge.getNeighbor().getEnd());
+                edge.setNeighbor(null);
+                // System.out.println("edge from " + edge.getStartX() + ", " + edge.getStartY()
+                // + " to " + edge.getEndX() + ", " + edge.getEndY());
+            }
+        }
     }
 
     /**
@@ -62,11 +73,12 @@ public class Voronoi {
      * @param e
      */
     private void handleCircleEvent(Event event) {
+        circleEvents++;
         Parabola par1 = event.getParabola();
-        Parabola parent1 = par1.getLeftParent();
-        Parabola parent2 = par1.getRightParent();
-        Parabola child1 = parent1.getLeftCoordinateChild();
-        Parabola child2 = parent2.getRightCoordinateChild();
+        Parabola parent1 = Parabola.getLeftParent(par1);
+        Parabola parent2 = Parabola.getRightParent(par1);
+        Parabola child1 = Parabola.getLeftCoordinateChild(parent1);
+        Parabola child2 = Parabola.getRightCoordinateChild(parent2);
 
         if (child1.getEvent() != null) {
             events.remove(child1.getEvent());
@@ -75,11 +87,10 @@ public class Voronoi {
         if (child2.getEvent() != null) {
             events.remove(child2.getEvent());
             child2.setEvent(null);
-            ;
         }
 
         Coordinate coordinate = new Coordinate(event.getCoordinate().getX(),
-                (int) calculator.getParabolaY(par1.getCoordinate(), event.getCoordinate().getX(), currentY));
+                (int) Calculator.getParabolaY(par1.getCoordinate(), event.getCoordinate().getX(), currentY));
         parent1.getEdge().setEnd(coordinate);
         parent2.getEdge().setEnd(coordinate);
 
@@ -98,17 +109,17 @@ public class Voronoi {
         }
         higher.setEdge(new Edge(coordinate, child1.getCoordinate(), child2.getCoordinate()));
 
-        Parabola gparent = par1.getParent().getParent();
+        Parabola grandparent = par1.getParent().getParent();
         if (par1.getParent().getLeftChild() == par1) {
-            if (gparent.getLeftChild() == par1.getParent())
-                gparent.setLeftChild(par1.getParent().getRightChild());
-            if (gparent.getRightChild() == par1.getRightChild())
-                gparent.setRightChild(par1.getParent().getRightChild());
+            if (grandparent.getLeftChild() == par1.getParent())
+                grandparent.setLeftChild(par1.getParent().getRightChild());
+            if (grandparent.getRightChild() == par1.getRightChild())
+                grandparent.setRightChild(par1.getParent().getRightChild());
         } else {
-            if (gparent.getLeftChild() == par1.getParent())
-                gparent.setLeftChild(par1.getParent().getLeftChild());
-            if (gparent.getRightChild() == par1.getParent())
-                gparent.setRightChild(par1.getParent().getLeftChild());
+            if (grandparent.getLeftChild() == par1.getParent())
+                grandparent.setLeftChild(par1.getParent().getLeftChild());
+            if (grandparent.getRightChild() == par1.getParent())
+                grandparent.setRightChild(par1.getParent().getLeftChild());
         }
 
         par1.setParent(null);
@@ -128,63 +139,63 @@ public class Voronoi {
             rootParabola = new Parabola(coordinate);
             return;
         }
-        Parabola newParabola = getParabolaAboveX(coordinate.getX());
+        Parabola parabolaAbove = getParabolaAboveX(coordinate.getX());
 
-        Event event = newParabola.getEvent();
+        Event event = parabolaAbove.getEvent();
         if (event != null) {
             events.remove(event);
-            newParabola.setEvent(null);
+            parabolaAbove.setEvent(null);
         }
 
-        // create edge that runs through parabola focus and p
+        // create edges that run through parabola focus and coordinate
         Coordinate startCoord = new Coordinate(coordinate.getX(),
-                (int) calculator.getParabolaY(coordinate, coordinate.getX(), currentY));
-        Edge leftEdge = new Edge(startCoord, newParabola.getCoordinate(), coordinate);
-        Edge rightEdge = new Edge(startCoord, coordinate, newParabola.getCoordinate());
+                (int) Calculator.getParabolaY(parabolaAbove.getCoordinate(), coordinate.getX(), currentY));
+        Edge leftEdge = new Edge(startCoord, parabolaAbove.getCoordinate(), coordinate);
+        Edge rightEdge = new Edge(startCoord, coordinate, parabolaAbove.getCoordinate());
+
         leftEdge.setNeighbor(rightEdge);
         rightEdge.setNeighbor(leftEdge);
-        newParabola.setEdge(leftEdge);
-        newParabola.setIsCoordinate(false);
+        parabolaAbove.setEdge(leftEdge);
+        parabolaAbove.setIsCoordinate(false);
 
         // replace original parabola par with p0, p1, p2
-        Parabola newPar1 = new Parabola(newParabola.getCoordinate());
+        Parabola newPar1 = new Parabola(parabolaAbove.getCoordinate());
         Parabola newPar2 = new Parabola(coordinate);
-        Parabola newPar3 = new Parabola(newParabola.getCoordinate());
+        Parabola newPar3 = new Parabola(parabolaAbove.getCoordinate());
 
-        newParabola.setLeftChild(newPar1);
-        newParabola.setRightChild(new Parabola());
-        newParabola.getRightChild().setEdge(rightEdge);
-        newParabola.getRightChild().setLeftChild(newPar2);
-        newParabola.getRightChild().setRightChild(newPar3);
+        parabolaAbove.setLeftChild(newPar1);
+        parabolaAbove.setRightChild(new Parabola());
+        parabolaAbove.getRightChild().setEdge(rightEdge);
+        parabolaAbove.getRightChild().setLeftChild(newPar2);
+        parabolaAbove.getRightChild().setRightChild(newPar3);
 
         // check circle events
         conditionalAddCircleEvent(newPar1);
         conditionalAddCircleEvent(newPar3);
-
     }
 
     /**
      * Add new circle event if conditions are met
      * 
-     * @param parabola
+     * @param b
      */
-    private void conditionalAddCircleEvent(Parabola parabola) {
-        Parabola leftPar = parabola.getLeftParent();
-        Parabola rightPar = parabola.getRightParent();
+    private void conditionalAddCircleEvent(Parabola b) {
+        Parabola leftPar = Parabola.getLeftParent(b);
+        Parabola rightPar = Parabola.getRightParent(b);
 
         if (leftPar == null || rightPar == null) {
             return;
         }
 
-        Parabola a = leftPar.getLeftCoordinateChild();
-        Parabola c = leftPar.getRightCoordinateChild();
+        Parabola a = Parabola.getLeftCoordinateChild(leftPar);
+        Parabola c = Parabola.getRightCoordinateChild(rightPar);
 
         if (a == null || c == null || a.getCoordinate() == c.getCoordinate()) {
             return;
         }
 
         // if parabola points are not in the right order, do nothing
-        if (Calculator.counterClockwise(a.getCoordinate(), parabola.getCoordinate(), c.getCoordinate()) != 1) {
+        if (Calculator.counterClockwise(a.getCoordinate(), b.getCoordinate(), c.getCoordinate()) != 1) {
             return;
         }
 
@@ -193,11 +204,11 @@ public class Voronoi {
             return;
 
         // circle radius
-        double radX = parabola.getCoordinate().getX() - startCoordinate.getX();
-        double radY = parabola.getCoordinate().getY() - startCoordinate.getY();
+        double radX = b.getCoordinate().getX() - startCoordinate.getX();
+        double radY = b.getCoordinate().getY() - startCoordinate.getY();
         double radius = Math.sqrt((radX * radX) + (radY * radY));
 
-        // check that this coord isn't after sweepline
+        // check that this coord isn't below sweepline
         if (startCoordinate.getY() + radius < currentY)
             return;
 
@@ -205,8 +216,8 @@ public class Voronoi {
 
         // add circle event
         Event e = new Event(ep, 1);
-        e.setParabola(parabola);
-        parabola.setEvent(e);
+        e.setParabola(b);
+        b.setEvent(e);
         events.add(e);
     }
 
@@ -238,8 +249,8 @@ public class Voronoi {
      */
     public int getEdgeX(Parabola parabola) {
 
-        Parabola left = parabola == null ? null : parabola.getLeftCoordinateChild();
-        Parabola right = parabola == null ? null : parabola.getRightCoordinateChild();
+        Parabola left = Parabola.getLeftCoordinateChild(parabola);
+        Parabola right = Parabola.getRightCoordinateChild(parabola);
 
         // coordinates for left vertex point
         int x1 = left.getCoordinate().getX();
@@ -249,7 +260,7 @@ public class Voronoi {
         int x2 = right.getCoordinate().getX();
         int y2 = right.getCoordinate().getY();
 
-        System.out.println(x1 + ", " + y1 + " and " + x2 + ", " + y2);
+        // System.out.println(x1 + ", " + y1 + " and " + x2 + ", " + y2);
 
         // calculate where parabolas intersect
         // todo move this to calculator class
@@ -260,18 +271,17 @@ public class Voronoi {
         double c1 = (x1 * x1 + y1 * y1 - 1.0 * currentY * currentY) / (2.0 * (y1 - currentY));
         double c2 = (x2 * x2 + y2 * y2 - 1.0 * currentY * currentY) / (2.0 * (y2 - currentY));
 
-        System.out.println(a1 + ", " + a2 + ", " + b1 + ", " + b2 + ", " + c1 + ", " + c2);
+        // System.out.println(a1 + ", " + a2 + ", " + b1 + ", " + b2 + ", " + c1 + ", "
+        // + c2);
         double a = a1 - a2;
         double b = b1 - b2;
         double c = c1 - c2;
         double disc = b * b - 4 * a * c;
 
-        System.out.println("a, b, c, disc: " + a + ", " + b + ", " + c + ", " + disc);
-
         double candidate1 = (-1 * b + Math.sqrt(disc)) / (2 * a);
         double candidate2 = (-1 * b - Math.sqrt(disc)) / (2 * a);
 
-        System.out.println("candidates: " + candidate1 + ", " + candidate2);
+        // System.out.println("candidates: " + candidate1 + ", " + candidate2);
         if (y1 > y2) {
             return (int) Math.max(candidate1, candidate2);
         }
@@ -284,6 +294,28 @@ public class Voronoi {
 
     public ArrayList<Edge> getEdges() {
         return this.edges;
+    }
+
+    /**
+     * Finalize edges by recursivelly going through all parabolas
+     * @param parabola
+     */
+    private void endEdges(Parabola parabola) {
+        if (parabola.isCoordinate()) {
+            parabola = null;
+            return;
+        }
+
+        int x = getEdgeX(parabola);
+        double y = parabola.getEdge().getSlope() * x + parabola.getEdge().getYIntercept();
+        Coordinate coordinate = new Coordinate(x, (int) y);
+        parabola.getEdge().setEnd(coordinate);
+        edges.add(parabola.getEdge());
+
+        endEdges(parabola.getLeftChild());
+        endEdges(parabola.getRightChild());
+
+        parabola = null;
     }
 
     /**

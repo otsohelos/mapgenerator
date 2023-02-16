@@ -1,9 +1,11 @@
 package org.helsinki.back.mapmaker;
 
+/**
+ * Event in the creation of Voronoi diagram
+ */
 public class Event implements Comparable<Event> {
-
     public static int SEEDCOORD = 0;
-    public static int VERTEX = 1;
+    public static int CIRCLE = 1;
 
     Coordinate coordinate;
     int type;
@@ -20,7 +22,6 @@ public class Event implements Comparable<Event> {
         if (comparison == 0) {
             comparison = this.coordinate.getX() - other.coordinate.getX();
         }
-
         return comparison;
     }
 
