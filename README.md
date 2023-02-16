@@ -2,6 +2,24 @@
 Tiralabra 2023 / Data structures and algorithms lab work, spring 2023
 
 
+## Usage
+
+Start backend by using command
+
+```mvn exec:java -Dexec.mainClass=org.helsinki.back.App```
+
+in the /program/backspring folder. If prompted, accept incoming connections. Backend should start in port 8080.
+
+Start frontend by using command
+
+```npm start```
+
+in the /program/front folder. Frontend should start in port 3000, accessible at http://localhost:3000.
+
+Refreshing the page gives the user a new diagram.
+
+
+## Documentation
 [Software Requirements Specification](https://github.com/otsohelos/mapgenerator/blob/main/srs.md)
 
 [Test documentation](https://github.com/otsohelos/mapgenerator/blob/main/docs/testing.md)
