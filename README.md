@@ -32,3 +32,5 @@ Refreshing the page gives the user a new diagram.
 [Week 3](https://github.com/otsohelos/mapgenerator/blob/main/viikkoraportit/viikko3.md)
 
 [Week 4](https://github.com/otsohelos/mapgenerator/blob/main/viikkoraportit/viikko4.md)
+
+[Week 5](https://github.com/otsohelos/mapgenerator/blob/main/viikkoraportit/viikko5.md)

@@ -1,15 +1,3 @@
-# Viikkoraportti, viikko 4
+# Viikkoraportti, viikko 5
 ## Mitä olen tehnyt tällä viikolla
-
-
-## Miten ohjelma on edistynyt
-
-
-## Mitä opin tällä viikolla
-
-
-## Mikä jäi epäselväksi tai tuotti vaikeuksia
-
-
-## Mitä teen seuraavaksi
-
+Olen hakannut päätäni ohjelman bugiin. Mikään muu ei ole oikeastaan edistynyt. Selvittelen alkuviikosta, mitä mahdollisuuksia minulla on edelleen jatkaa kurssilla. Ei muuta raportoitavaa.
