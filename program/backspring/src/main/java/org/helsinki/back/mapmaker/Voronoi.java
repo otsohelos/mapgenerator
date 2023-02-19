@@ -3,6 +3,8 @@ package org.helsinki.back.mapmaker;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
+import com.fasterxml.jackson.databind.ser.std.MapSerializer;
+
 /**
  * Voronoi diagram creation main class
  */
@@ -12,7 +14,7 @@ public class Voronoi {
     private ArrayList<Coordinate> coordinates;
     private int currentY;
     private ArrayList<Vertex> vertices;
-    // private int mapSize;
+    private int mapSize;
     private PriorityQueue<Event> events;
     private ArrayList<Edge> edges;
     private int circleEvents;
@@ -21,7 +23,7 @@ public class Voronoi {
         this.rootParabola = null;
         this.coordinates = coordinates;
         this.vertices = new ArrayList<>();
-        // this.mapSize = mapSize;
+        this.mapSize = mapSize;
         this.events = new PriorityQueue<>();
         this.edges = new ArrayList<>();
         this.circleEvents = 0;
@@ -33,11 +35,10 @@ public class Voronoi {
     public void generate() {
         long startTime = System.currentTimeMillis();
 
-        coordinates.sort((c1, c2) -> c1.getY() - c2.getY());
+        // coordinates.sort((c1, c2) -> c1.getY() - c2.getY());
 
         for (Coordinate c : coordinates) {
-            events.add(new Event(c, 0));
-            // System.out.println(c.getY());
+            events.add(new Event(c, Event.SEEDCOORD));
         }
 
         while (!events.isEmpty()) {
@@ -57,6 +58,7 @@ public class Voronoi {
         System.out.println(circleEvents + " circle events");
 
         endEdges(rootParabola);
+
         for (Edge edge : edges) {
             if (edge.getNeighbor() != null) {
                 edge.setStart(edge.getNeighbor().getEnd());
@@ -74,11 +76,12 @@ public class Voronoi {
      */
     private void handleCircleEvent(Event event) {
         circleEvents++;
+
         Parabola par1 = event.getParabola();
-        Parabola parent1 = Parabola.getLeftParent(par1);
-        Parabola parent2 = Parabola.getRightParent(par1);
-        Parabola child1 = Parabola.getLeftCoordinateChild(parent1);
-        Parabola child2 = Parabola.getRightCoordinateChild(parent2);
+        Parabola leftParent = Parabola.getLeftParent(par1);
+        Parabola rightParent = Parabola.getRightParent(par1);
+        Parabola child1 = Parabola.getLeftCoordinateChild(leftParent);
+        Parabola child2 = Parabola.getRightCoordinateChild(rightParent);
 
         if (child1.getEvent() != null) {
             events.remove(child1.getEvent());
@@ -91,42 +94,52 @@ public class Voronoi {
 
         Coordinate coordinate = new Coordinate(event.getCoordinate().getX(),
                 (int) Calculator.getParabolaY(par1.getCoordinate(), event.getCoordinate().getX(), currentY));
-        parent1.getEdge().setEnd(coordinate);
-        parent2.getEdge().setEnd(coordinate);
 
-        edges.add(parent1.getEdge());
-        edges.add(parent2.getEdge());
+        leftParent.getEdge().setEnd(coordinate);
+        rightParent.getEdge().setEnd(coordinate);
+        edges.add(leftParent.getEdge());
+        edges.add(rightParent.getEdge());
+
         Parabola higher = new Parabola();
         Parabola p = par1;
         while (p != rootParabola) {
             p = p.getParent();
-            if (p == parent1) {
-                higher = parent1;
-            }
-            if (p == parent2) {
-                higher = parent2;
+            if (p == leftParent) {
+                higher = leftParent;
+            } else if (p == rightParent) {
+                higher = rightParent;
             }
         }
-        higher.setEdge(new Edge(coordinate, child1.getCoordinate(), child2.getCoordinate()));
+
+        Edge edge = new Edge(coordinate, child1.getCoordinate(), child2.getCoordinate());
+        higher.setEdge(edge);
 
         Parabola grandparent = par1.getParent().getParent();
         if (par1.getParent().getLeftChild() == par1) {
-            if (grandparent.getLeftChild() == par1.getParent())
+            if (grandparent.getLeftChild() == par1.getParent()) {
                 grandparent.setLeftChild(par1.getParent().getRightChild());
-            if (grandparent.getRightChild() == par1.getRightChild())
+            }
+            if (grandparent.getRightChild() == par1.getRightChild()) {
                 grandparent.setRightChild(par1.getParent().getRightChild());
+            }
         } else {
-            if (grandparent.getLeftChild() == par1.getParent())
+            if (grandparent.getLeftChild() == par1.getParent()) {
                 grandparent.setLeftChild(par1.getParent().getLeftChild());
-            if (grandparent.getRightChild() == par1.getParent())
+            }
+            if (grandparent.getRightChild() == par1.getParent()) {
                 grandparent.setRightChild(par1.getParent().getLeftChild());
+            }
         }
 
         par1.setParent(null);
         par1 = null;
 
+        // System.out.print("child 1: ");
         conditionalAddCircleEvent(child1);
+        // System.out.println();
+        // System.out.print("child 2: ");
         conditionalAddCircleEvent(child2);
+        // System.out.println();
     }
 
     /**
@@ -140,7 +153,7 @@ public class Voronoi {
             return;
         }
         Parabola parabolaAbove = getParabolaAboveX(coordinate.getX());
-
+        
         Event event = parabolaAbove.getEvent();
         if (event != null) {
             events.remove(event);
@@ -150,6 +163,7 @@ public class Voronoi {
         // create edges that run through parabola focus and coordinate
         Coordinate startCoord = new Coordinate(coordinate.getX(),
                 (int) Calculator.getParabolaY(parabolaAbove.getCoordinate(), coordinate.getX(), currentY));
+        //System.out.println(startCoord.toString());
         Edge leftEdge = new Edge(startCoord, parabolaAbove.getCoordinate(), coordinate);
         Edge rightEdge = new Edge(startCoord, coordinate, parabolaAbove.getCoordinate());
 
@@ -170,7 +184,10 @@ public class Voronoi {
         parabolaAbove.getRightChild().setRightChild(newPar3);
 
         // check circle events
+        // System.out.print("par 1: ");
         conditionalAddCircleEvent(newPar1);
+        // System.out.println();
+        // System.out.print("par 3:");
         conditionalAddCircleEvent(newPar3);
     }
 
@@ -180,6 +197,7 @@ public class Voronoi {
      * @param b
      */
     private void conditionalAddCircleEvent(Parabola b) {
+
         Parabola leftPar = Parabola.getLeftParent(b);
         Parabola rightPar = Parabola.getRightParent(b);
 
@@ -200,25 +218,29 @@ public class Voronoi {
         }
 
         Coordinate startCoordinate = Calculator.getEdgeIntersection(leftPar.getEdge(), rightPar.getEdge());
-        if (startCoordinate == null)
+        if (startCoordinate == null) {
             return;
+        }
 
-        // circle radius
-        double radX = b.getCoordinate().getX() - startCoordinate.getX();
-        double radY = b.getCoordinate().getY() - startCoordinate.getY();
-        double radius = Math.sqrt((radX * radX) + (radY * radY));
+        // calculate circle radius
+        double deltaX = b.getCoordinate().getX() - startCoordinate.getX();
+        double deltaY = b.getCoordinate().getY() - startCoordinate.getY();
+        double radius = Math.sqrt((deltaX * deltaX) + (deltaY * deltaY));
 
         // check that this coord isn't below sweepline
-        if (startCoordinate.getY() + radius < currentY)
+        if (startCoordinate.getY() + radius < currentY) {
             return;
+        }
 
-        Coordinate ep = new Coordinate((int) startCoordinate.getX(), (int) startCoordinate.getY() + (int) radius);
+        Coordinate ep = new Coordinate(startCoordinate.getX(), (startCoordinate.getY() + (int) radius));
 
         // add circle event
-        Event e = new Event(ep, 1);
+        Event e = new Event(ep, Event.CIRCLE);
         e.setParabola(b);
         b.setEvent(e);
         events.add(e);
+
+        //System.out.println("added");
     }
 
     /**
@@ -248,28 +270,30 @@ public class Voronoi {
      * @return
      */
     public int getEdgeX(Parabola parabola) {
-
         Parabola left = Parabola.getLeftCoordinateChild(parabola);
         Parabola right = Parabola.getRightCoordinateChild(parabola);
 
         // coordinates for left vertex point
-        int x1 = left.getCoordinate().getX();
-        int y1 = left.getCoordinate().getY();
+        int xLeft = left.getCoordinate().getX();
+        int yLeft = left.getCoordinate().getY();
 
         // coordinates for right vertex point
-        int x2 = right.getCoordinate().getX();
-        int y2 = right.getCoordinate().getY();
+        int xRight = right.getCoordinate().getX();
+        int yRight = right.getCoordinate().getY();
 
         // System.out.println(x1 + ", " + y1 + " and " + x2 + ", " + y2);
 
         // calculate where parabolas intersect
         // todo move this to calculator class
-        double a1 = 1.0 / (2 * (y1 - currentY));
-        double a2 = 1.0 / (2 * (y2 - currentY));
-        double b1 = -1.0 * x1 / (y1 - currentY);
-        double b2 = -1.0 * x2 / (y2 - currentY);
-        double c1 = (x1 * x1 + y1 * y1 - 1.0 * currentY * currentY) / (2.0 * (y1 - currentY));
-        double c2 = (x2 * x2 + y2 * y2 - 1.0 * currentY * currentY) / (2.0 * (y2 - currentY));
+        double dp = 2 * (yLeft - currentY);
+        double dp2 = 2 * (yRight - currentY);
+
+        double a1 = 1.0 / (dp);
+        double a2 = 1.0 / (dp2);
+        double b1 = -2.0 * xLeft / dp;
+        double b2 = -2.0 * xRight / dp2;
+        double c1 = (xLeft * xLeft + yLeft * yLeft - 1.0 * currentY * currentY) / dp;
+        double c2 = (xRight * xRight + yRight * yRight - 1.0 * currentY * currentY) / dp2;
 
         // System.out.println(a1 + ", " + a2 + ", " + b1 + ", " + b2 + ", " + c1 + ", "
         // + c2);
@@ -282,7 +306,7 @@ public class Voronoi {
         double candidate2 = (-1 * b - Math.sqrt(disc)) / (2 * a);
 
         // System.out.println("candidates: " + candidate1 + ", " + candidate2);
-        if (y1 > y2) {
+        if (yLeft > yRight) {
             return (int) Math.max(candidate1, candidate2);
         }
         return (int) Math.min(candidate1, candidate2);
@@ -298,6 +322,7 @@ public class Voronoi {
 
     /**
      * Finalize edges by recursivelly going through all parabolas
+     * 
      * @param parabola
      */
     private void endEdges(Parabola parabola) {
@@ -307,7 +332,7 @@ public class Voronoi {
         }
 
         int x = getEdgeX(parabola);
-        double y = parabola.getEdge().getSlope() * x + parabola.getEdge().getYIntercept();
+        double y = (parabola.getEdge().getSlope() * x) + parabola.getEdge().getYIntercept();
         Coordinate coordinate = new Coordinate(x, (int) y);
         parabola.getEdge().setEnd(coordinate);
         edges.add(parabola.getEdge());
@@ -335,5 +360,4 @@ public class Voronoi {
     public void setCurrentY(int y) {
         this.currentY = y;
     }
-
 }

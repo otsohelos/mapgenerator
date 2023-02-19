@@ -8,14 +8,15 @@ public class Edge {
     private Coordinate end;
     private Edge neighbor;
     private double slope;
-    private Coordinate midpoint;
     private double yIntercept;
 
     public Edge(Coordinate start, Coordinate left, Coordinate right) {
         this.start = start;
-        this.slope = 1.0 * (right.getX() - left.getX()) / (left.getY() - right.getY());
-        this.midpoint = new Coordinate((right.getX() + left.getX()) / 2, (left.getY() + right.getY()) / 2);
+        this.slope = (1.0 * right.getX() - left.getX()) / (left.getY() - right.getY());
+        Coordinate midpoint = new Coordinate(((int) (1.0 * right.getX() + left.getX()) / 2), ((int) (1.0 * left.getY() + right.getY()) / 2));
         this.yIntercept = midpoint.getY() - slope * midpoint.getX();
+        this.end = null;
+        //System.out.println(left.toString() + " and " + right.toString() + " and " + midpoint.toString() + ", slope " + slope);
     }
 
     public void setNeighbor(Edge edge) {

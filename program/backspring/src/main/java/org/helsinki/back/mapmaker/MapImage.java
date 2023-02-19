@@ -31,6 +31,7 @@ public class MapImage {
         }
 
         Voronoi voronoi = new Voronoi(coordinates, mapSize);
+        System.out.println(voronoi);
         voronoi.generate();
 
         /*
@@ -69,7 +70,7 @@ public class MapImage {
          */
         ArrayList<Polygon> polygons = new ArrayList<>();
 
-        for (Coordinate coordinate : coordinates) {
+        /*for (Coordinate coordinate : coordinates) {
             int numberOfCoords = coordinate.getVertices().size();
             int[] xs = new int[numberOfCoords];
             int[] ys = new int[numberOfCoords];
@@ -80,7 +81,7 @@ public class MapImage {
                 i++;
             }
             polygons.add(new Polygon(xs, ys, numberOfCoords));
-        }
+        }*/
 
         // String polygonString = "";
 
@@ -106,7 +107,6 @@ public class MapImage {
                     + edge.getStartX()
                     + "' y1='"
                     + edge.getStartY()
-
                     + "' x2='"
                     + edge.getEndX()
                     + "' y2='"

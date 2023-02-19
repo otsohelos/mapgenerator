@@ -3,8 +3,8 @@ package org.helsinki.back.mapmaker;
 public class Parabola {
     private Coordinate coordinate;
     private boolean isCoordinate;
-    private Parabola leftChild;
-    private Parabola rightChild;
+    Parabola leftChild;
+    Parabola rightChild;
     private Parabola parent;
     private Event event;
     private Edge edge;
@@ -19,17 +19,17 @@ public class Parabola {
     }
 
     public void setIsCoordinate(boolean value) {
-        this.isCoordinate = value;
+        isCoordinate = value;
     }
 
-    public void setLeftChild(Parabola parabola) {
-        leftChild = parabola;
-        parabola.setParent(this);
+    public void setLeftChild(Parabola p) {
+        leftChild = p;
+        p.setParent(this);
     }
 
-    public void setRightChild(Parabola parabola) {
-        rightChild = parabola;
-        parabola.setParent(this);
+    public void setRightChild(Parabola p) {
+        rightChild = p;
+        p.setParent(this);
     }
 
     public void setParent(Parabola parabola) {
@@ -52,6 +52,12 @@ public class Parabola {
         return this.rightChild;
     }
 
+    /**
+     * Get closest child, grandchild etc. that is coordinate type
+     * 
+     * @param p
+     * @return
+     */
     public static Parabola getLeftCoordinateChild(Parabola p) {
         if (p == null) {
             return null;
@@ -63,6 +69,12 @@ public class Parabola {
         return child;
     }
 
+    /**
+     * Get closest child, grandchild etc. that is coordinate type
+     * 
+     * @param p
+     * @return
+     */
     public static Parabola getRightCoordinateChild(Parabola p) {
         if (p == null) {
             return null;
@@ -79,7 +91,7 @@ public class Parabola {
     }
 
     public Parabola getParent() {
-        return parent;
+        return this.parent;
     }
 
     public Event getEvent() {

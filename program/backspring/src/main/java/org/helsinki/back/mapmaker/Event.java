@@ -7,14 +7,13 @@ public class Event implements Comparable<Event> {
     public static int SEEDCOORD = 0;
     public static int CIRCLE = 1;
 
-    Coordinate coordinate;
+    private Coordinate coordinate;
     int type;
-    Parabola parabola;
+    private Parabola parabola;
 
     public Event(Coordinate coordinate, int type) {
         this.coordinate = coordinate;
         this.type = type;
-        // this.parabola = null;
     }
 
     public int compareTo(Event other) {
@@ -29,7 +28,7 @@ public class Event implements Comparable<Event> {
         this.parabola = par;
     }
 
-    public String getCoords() {
+    public String toString() {
         return Integer.toString(coordinate.getX()) + ", " + Integer.toString(coordinate.getY());
     }
 
