@@ -27,12 +27,11 @@ public class Calculator {
      * @return
      */
     public static double getParabolaY(Coordinate coordinate, int x, int currentY) {
-        //checked
-        double distance = coordinate.getY() - currentY;
-        double a = 1.0 / (2 * distance);
-        double b = (-1.0 * coordinate.getX()) / distance;
-        double c = (1.0 * coordinate.getX() * coordinate.getX() + coordinate.getY() * coordinate.getY()
-                - currentY * currentY) / (2 * distance);
+        // checked
+        double distance = 2 * (coordinate.getY() - currentY);
+        double a = 1.0 / distance;
+        double b = (-2.0 * coordinate.getX()) / distance;
+        double c = (1.0 * coordinate.getX() * coordinate.getX() + 1.0 * coordinate.getY() * coordinate.getY() - 1.0 * currentY * currentY) / distance;
         return (a * x * x + b * x + c);
     }
 
@@ -47,13 +46,13 @@ public class Calculator {
      *         https://algs4.cs.princeton.edu/91primitives/Point.java.html
      */
     public static int counterClockwise(Coordinate a, Coordinate b, Coordinate c) {
-        //checked
+        // checked
         double first = b.getX() - a.getX();
         double second = c.getY() - a.getY();
         double third = b.getY() - a.getY();
         double fourth = c.getX() - a.getX();
         double area = (first * second) - (third * fourth);
-        
+        System.out.println(area);
         if (area < 0)
             return -1;
         else if (area > 0)
@@ -68,7 +67,7 @@ public class Calculator {
         }
         double x = (b.getYIntercept() - a.getYIntercept()) / (a.getSlope() - b.getSlope());
         double y = (a.getSlope() * x) + a.getYIntercept();
-        
-        return new Coordinate((int) x, (int) y);
+        Coordinate c = new Coordinate((int) Math.round(x), (int) Math.round(y));
+        return c;
     }
 }

@@ -13,7 +13,7 @@ public class Edge {
     public Edge(Coordinate start, Coordinate left, Coordinate right) {
         this.start = start;
         this.slope = (1.0 * right.getX() - left.getX()) / (left.getY() - right.getY());
-        Coordinate midpoint = new Coordinate(((int) (1.0 * right.getX() + left.getX()) / 2), ((int) (1.0 * left.getY() + right.getY()) / 2));
+        Coordinate midpoint = new Coordinate(((int) Math.round((1.0 * right.getX() + left.getX()) / 2)), ((int) Math.round((1.0 * left.getY() + right.getY()) / 2)));
         this.yIntercept = midpoint.getY() - slope * midpoint.getX();
         this.end = null;
         //System.out.println(left.toString() + " and " + right.toString() + " and " + midpoint.toString() + ", slope " + slope);

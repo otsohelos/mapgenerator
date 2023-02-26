@@ -17,19 +17,28 @@ public class MapImage {
         int mapSize = 1000;
         CoordinateCreator cc = new CoordinateCreator(mapSize);
 
-        ArrayList<Coordinate> coordinates = cc.createCoordinates();
+        ArrayList<Coordinate> coordinates = new ArrayList<>();//cc.createCoordinates();
 
         String coordinateString = "";
 
-        for (Coordinate coordinate : coordinates) {
+        /*for (Coordinate coordinate : coordinates) {
             coordinateString = coordinateString
                     + "<circle cx='"
                     + coordinate.getX()
                     + "' cy='"
                     + coordinate.getY()
                     + "' r='5' stroke='black' stroke-width='0' fill='white' />";
-        }
+        }*/
 
+        Coordinate a = new Coordinate(0, 200);
+		Coordinate b = new Coordinate(200,105);
+		Coordinate c = new Coordinate(300,400);
+		Coordinate d = new Coordinate(600,800);
+
+        coordinates.add(a);
+        coordinates.add(b);
+        coordinates.add(c);
+        coordinates.add(d);
         Voronoi voronoi = new Voronoi(coordinates, mapSize);
         System.out.println(voronoi);
         voronoi.generate();
