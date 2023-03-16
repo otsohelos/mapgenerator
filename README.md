@@ -27,7 +27,7 @@ Refreshing the page gives the user a new diagram.
 ### Weekly reports (in Finnish)
 [Week 1](https://github.com/otsohelos/mapgenerator/blob/main/viikkoraportit/viikko1.md)
 
-[Week 2](https://github.com/otsohelos/mapgenerator/blob/main/viikkoraportit/viikko2.md)
+<!--[Week 2](https://github.com/otsohelos/mapgenerator/blob/main/viikkoraportit/viikko2.md)
 
 [Week 3](https://github.com/otsohelos/mapgenerator/blob/main/viikkoraportit/viikko3.md)
 
@@ -35,4 +35,4 @@ Refreshing the page gives the user a new diagram.
 
 [Week 5](https://github.com/otsohelos/mapgenerator/blob/main/viikkoraportit/viikko5.md)
 
-[Week 6](https://github.com/otsohelos/mapgenerator/blob/main/viikkoraportit/viikko6.md)
+[Week 6](https://github.com/otsohelos/mapgenerator/blob/main/viikkoraportit/viikko6.md)-->
