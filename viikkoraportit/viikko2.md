@@ -1,15 +1,8 @@
 # Viikkoraportti, viikko 2
 ## Mitä olen tehnyt tällä viikolla
 
-
-## Miten ohjelma on edistynyt
-
-
-## Mitä opin tällä viikolla
-
-
-## Mikä jäi epäselväksi tai tuotti vaikeuksia
-
+Käytin useita tunteja debuggaukseen. Virhe ei vielä löytynyt, mutta minulla on luultavasti aika hyvä kuva siitä missä se on.
 
 ## Mitä teen seuraavaksi
 
+Jatkan debuggausta.

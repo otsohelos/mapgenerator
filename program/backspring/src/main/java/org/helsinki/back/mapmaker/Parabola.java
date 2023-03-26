@@ -147,4 +147,13 @@ public class Parabola {
     public boolean isCoordinate() {
         return isCoordinate;
     }
+
+    public String toString() {
+        if (this.isCoordinate) {
+			return "Focus at " + this.coordinate;
+		}
+		else{
+			return "Edge beginning at " + edge.getStart();
+		} 
+    }
 }

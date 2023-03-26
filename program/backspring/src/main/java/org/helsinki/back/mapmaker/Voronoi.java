@@ -3,8 +3,6 @@ package org.helsinki.back.mapmaker;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 
-import com.fasterxml.jackson.databind.ser.std.MapSerializer;
-
 /**
  * Voronoi diagram creation main class
  */
