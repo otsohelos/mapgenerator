@@ -176,9 +176,9 @@ public class Voronoi {
     private void handleCircleEvent(Event event) {
         circleEvents++;
         //System.out.println("Handling circle event at " + event.getCoordinate().toString());
-        Parabola par1 = event.getParabola();
-        Parabola leftParent = Parabola.getLeftParent(par1);
-        Parabola rightParent = Parabola.getRightParent(par1);
+        Parabola p1 = event.getParabola();
+        Parabola leftParent = Parabola.getLeftParent(p1);
+        Parabola rightParent = Parabola.getRightParent(p1);
         Parabola child1 = Parabola.getLeftCoordinateChild(leftParent);
         Parabola child2 = Parabola.getRightCoordinateChild(rightParent);
 
@@ -192,7 +192,7 @@ public class Voronoi {
         }
 
         Coordinate coordinate = new Coordinate(event.getCoordinate().getX(),
-                (int) Calculator.getParabolaY(par1.getCoordinate(), event.getCoordinate().getX(), currentY));
+                (int) Calculator.getParabolaY(p1.getCoordinate(), event.getCoordinate().getX(), currentY));
 
         leftParent.getEdge().setEnd(coordinate);
         rightParent.getEdge().setEnd(coordinate);
@@ -200,38 +200,33 @@ public class Voronoi {
         edges.add(rightParent.getEdge());
 
         Parabola higher = new Parabola();
-        Parabola p = par1;
-        while (p != rootParabola) {
-            p = p.getParent();
-            if (p == leftParent) {
+        Parabola par = p1;
+        while (par != rootParabola) {
+            par = par.getParent();
+            if (par == leftParent) {
                 higher = leftParent;
-            } if (p == rightParent) {
+            } if (par == rightParent) {
                 higher = rightParent;
             }
         }
 
         Edge edge = new Edge(coordinate, child1.getCoordinate(), child2.getCoordinate());
         higher.setEdge(edge);
+		Parabola grandparent = p1.getParent().getParent();
+		if (p1.getParent().getLeftChild() == p1) {
+			if (grandparent.getLeftChild() == p1.getParent())
+				grandparent.setLeftChild(p1.getParent().getRightChild());
+			if (grandparent.getRightChild() == p1.getParent())
+				grandparent.setRightChild(p1.getParent().getRightChild());
+		} else {
+			if (grandparent.getLeftChild() == p1.getParent())
+				grandparent.setLeftChild(p1.getParent().getLeftChild());
+			if (grandparent.getRightChild() == p1.getParent())
+				grandparent.setRightChild(p1.getParent().getLeftChild());
+		}
 
-        Parabola grandparent = par1.getParent().getParent();
-        if (par1.getParent().getLeftChild() == par1) {
-            if (grandparent.getLeftChild() == par1.getParent()) {
-                grandparent.setLeftChild(par1.getParent().getRightChild());
-            }
-            if (grandparent.getRightChild() == par1.getRightChild()) {
-                grandparent.setRightChild(par1.getParent().getRightChild());
-            }
-        } else {
-            if (grandparent.getLeftChild() == par1.getParent()) {
-                grandparent.setLeftChild(par1.getParent().getLeftChild());
-            }
-            if (grandparent.getRightChild() == par1.getParent()) {
-                grandparent.setRightChild(par1.getParent().getLeftChild());
-            }
-        }
-
-        par1.setParent(null);
-        par1 = null;
+        p1.setParent(null);
+        p1 = null;
 
         // System.out.print("child 1: ");
         conditionalAddCircleEvent(child1);

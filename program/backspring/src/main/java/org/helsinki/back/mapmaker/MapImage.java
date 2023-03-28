@@ -17,7 +17,7 @@ public class MapImage {
         int mapSize = 1000;
         CoordinateCreator cc = new CoordinateCreator(mapSize);
 
-        ArrayList<Coordinate> coordinates = new ArrayList<>();//cc.createCoordinates();
+        ArrayList<Coordinate> coordinates = cc.createCoordinates();
 
         String coordinateString = "";
 
@@ -35,10 +35,10 @@ public class MapImage {
 		Coordinate c = new Coordinate(300,400);
 		Coordinate d = new Coordinate(600,800);
 
-        coordinates.add(a);
-        coordinates.add(b);
-        coordinates.add(c);
-        coordinates.add(d);
+        //coordinates.add(a);
+        //coordinates.add(b);
+        //coordinates.add(c);
+        //coordinates.add(d);
         Voronoi voronoi = new Voronoi(coordinates, mapSize);
         System.out.println(voronoi);
         voronoi.generate();

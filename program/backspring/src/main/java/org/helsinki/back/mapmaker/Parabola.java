@@ -5,7 +5,7 @@ public class Parabola {
     private boolean isCoordinate;
     Parabola leftChild;
     Parabola rightChild;
-    private Parabola parent;
+    Parabola parent;
     private Event event;
     private Edge edge;
 
