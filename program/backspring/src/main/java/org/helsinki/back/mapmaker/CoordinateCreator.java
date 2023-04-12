@@ -26,15 +26,11 @@ public class CoordinateCreator {
         while (i < 30) {
             double x = rnd.nextDouble();
             double y = rnd.nextDouble();
-            //System.out.println(x + ", " + y);
             double acceptableDistance = 1.0 * mapSize / 15000;
-            System.out.println("acceptable: " + acceptableDistance);
             Coordinate coordinate = new Coordinate(x, y);
             boolean coordinateIsOk = true;
             for (Coordinate c : coordinates) {
-                System.out.println(Calculator.getCoordinateDistance(coordinate, c) );
                 if (Calculator.getCoordinateDistance(coordinate, c) < acceptableDistance) {
-                    System.out.println("nope");
                     coordinateIsOk = false;
                 } else if (c.getX() == x || c.getY() == y) {
                     coordinateIsOk = false;

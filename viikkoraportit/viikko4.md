@@ -1,15 +1,13 @@
-# Viikkoraportti, viikko 3
+# Viikkoraportti, viikko 4
 ## Mitä olen tehnyt tällä viikolla
 
+Debuggasin.
 
 ## Miten ohjelma on edistynyt
 
-
-## Mitä opin tällä viikolla
-
-
-## Mikä jäi epäselväksi tai tuotti vaikeuksia
+Sain ilmeisesti algoritmia vaivanneet bugit korjattua, ja se vaikuttaa nyt toimivan toivotulla tavalla.
 
 
 ## Mitä teen seuraavaksi
 
+Siistin koodia ja kirjoitan testejä ja dokumentaatiota.

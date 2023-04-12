@@ -59,12 +59,6 @@ public class Voronoi {
             }
         }
 
-        long endTime = System.currentTimeMillis();
-        System.out.println("Generating Voronoi took " + (endTime - startTime) + " ms.");
-        System.out.println("Coordinates: " + coordinates.size());
-        System.out.println("We have " + edges.size() + " edges");
-        System.out.println(circleEvents + " circle events");
-
         endEdges(rootParabola);
 
         for (Edge edge : edges) {
@@ -73,6 +67,11 @@ public class Voronoi {
                 edge.setNeighbor(null);
             }
         }
+        long endTime = System.currentTimeMillis();
+        System.out.println("Generating Voronoi took " + (endTime - startTime) + " ms.");
+        System.out.println("Coordinates: " + coordinates.size());
+        System.out.println("We have " + edges.size() + " edges");
+        System.out.println(circleEvents + " circle events");
     }
 
     private String visualizeUnfinishedMap() {

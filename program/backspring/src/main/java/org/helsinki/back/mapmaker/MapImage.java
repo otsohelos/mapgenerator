@@ -19,66 +19,11 @@ public class MapImage {
 
         ArrayList<Coordinate> coordinates = cc.createCoordinates();// new ArrayList<>();
 
-        String coordinateString = "";
-
-        /*
-         * for (Coordinate coordinate : coordinates) {
-         * coordinateString = coordinateString
-         * + "<circle cx='"
-         * + coordinate.getX()
-         * + "' cy='"
-         * + coordinate.getY()
-         * + "' r='5' stroke='black' stroke-width='0' fill='white' />";
-         * }
-         */
-
-        Coordinate a = new Coordinate(0, 200);
-        Coordinate b = new Coordinate(200, 105);
-        Coordinate c = new Coordinate(300, 400);
-        Coordinate d = new Coordinate(600, 800);
-        Coordinate e = new Coordinate(610, 100);
-        Coordinate f = new Coordinate(700, 910);
-        Coordinate f3 = new Coordinate(710, 910);
-        Coordinate g = new Coordinate(900, 900);
-        Coordinate h = new Coordinate(100, 500);
-        Coordinate i = new Coordinate(400, 410);
-        Coordinate a2 = new Coordinate(120, 220);
-        Coordinate b2 = new Coordinate(320, 125);
-        Coordinate c2 = new Coordinate(420, 420);
-        Coordinate d2 = new Coordinate(520, 820);
-        Coordinate e2 = new Coordinate(530, 120);
-        Coordinate f2 = new Coordinate(620, 930);
-        Coordinate g2 = new Coordinate(920, 920);
-        Coordinate h2 = new Coordinate(220, 520);
-        Coordinate i2 = new Coordinate(520, 430);
-
-        /*
-         * coordinates.add(a);
-         * coordinates.add(b);
-         * coordinates.add(c);
-         * coordinates.add(d);
-         * coordinates.add(e);
-         * coordinates.add(f);
-         * coordinates.add(f3);
-         * coordinates.add(g);
-         * coordinates.add(h);
-         * coordinates.add(i);
-         * coordinates.add(a2);
-         * coordinates.add(b2);
-         * coordinates.add(c2);
-         * coordinates.add(d2);
-         * coordinates.add(e2);
-         * coordinates.add(f2);
-         * coordinates.add(g2);
-         * coordinates.add(h2);
-         * coordinates.add(i2);
-         */
+        long startTime = System.currentTimeMillis();
 
         Voronoi voronoi = new Voronoi(coordinates, mapSize);
         System.out.println(voronoi);
         voronoi.generate();
-
-        // ArrayList<Polygon> polygons = new ArrayList<>();
 
         ArrayList<Edge> edges = voronoi.getEdges();
         String vertexString = "";
@@ -114,7 +59,11 @@ public class MapImage {
                 + vertexString
                 + "</svg>";
 
+        long endTime = System.currentTimeMillis();
+        System.out.println("Generating voronoi and map image took " + (endTime - startTime) + " ms.");
+
         return imageString;
+
     }
 
 }
