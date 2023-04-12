@@ -16,26 +16,33 @@ public class CoordinateCreator {
 
     /**
      * Creates coordinates
+     * 
      * @return
      */
     public ArrayList<Coordinate> createCoordinates() {
         Random rnd = new Random();
         ArrayList<Coordinate> coordinates = new ArrayList<>();
-        for (int i = 0; i < mapSize / 4; i++) {
-            int x = rnd.nextInt(mapSize);
-            int y = rnd.nextInt(mapSize);
-            int acceptableDistance = mapSize / 8;
+        int i = 0;
+        while (i < 20) {
+            double x = rnd.nextDouble();
+            double y = rnd.nextDouble();
+            System.out.println(x + ", " + y);
+            //int acceptableDistance = mapSize / 10;
             Coordinate coordinate = new Coordinate(x, y);
             boolean coordinateIsOk = true;
-            for (Coordinate c : coordinates) {
+            /*for (Coordinate c : coordinates) {
                 if (Calculator.getCoordinateDistance(coordinate, c) < acceptableDistance) {
                     coordinateIsOk = false;
+                } else if (c.getX() == x || c.getY() == y) {
+                    coordinateIsOk = false;
                 }
-            }
+            }*/
             if (coordinateIsOk) {
                 coordinates.add(coordinate);
+                i++;
             }
         }
+
         return coordinates;
     }
 }

@@ -17,11 +17,26 @@ public class Event implements Comparable<Event> {
     }
 
     public int compareTo(Event other) {
-        int comparison = this.coordinate.getY() - other.coordinate.getY();
-        if (comparison == 0) {
-            comparison = this.coordinate.getX() - other.coordinate.getX();
+        if (this.coordinate.getY() == other.getCoordinate().getY()) {
+            if (this.coordinate.getX() == other.getCoordinate().getX())
+                return 0;
+            else if (this.coordinate.getX() > other.getCoordinate().getX())
+                return 1;
+            else
+                return -1;
+        } else if (this.coordinate.getY() > other.getCoordinate().getY()) {
+            return 1;
+        } else {
+            return -1;
         }
-        return comparison;
+
+        /*
+         * int comparison = this.coordinate.getY() - other.coordinate.getY();
+         * if (comparison == 0) {
+         * comparison = this.coordinate.getX() - other.coordinate.getX();
+         * }
+         * return comparison;
+         */
     }
 
     public void setParabola(Parabola par) {
@@ -29,7 +44,7 @@ public class Event implements Comparable<Event> {
     }
 
     public String toString() {
-        return Integer.toString(coordinate.getX()) + ", " + Integer.toString(coordinate.getY());
+        return coordinate.getX() + ", " + coordinate.getY();
     }
 
     public Coordinate getCoordinate() {

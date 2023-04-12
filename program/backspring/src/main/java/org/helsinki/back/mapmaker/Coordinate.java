@@ -3,30 +3,30 @@ package org.helsinki.back.mapmaker;
 import java.util.ArrayList;
 
 public class Coordinate {
-    private int x;
-    private int y;
+    private double x;
+    private double y;
     private ArrayList<Vertex> vertices;
 
-    public Coordinate(int x, int y) {
+    public Coordinate(double x, double y) {
         this.x = x;
         this.y = y;
         this.vertices = new ArrayList<>();
     }
 
-    public int getX() {
+    public double getX() {
         return x;
     }
 
-    public int getY() {
+    public double getY() {
         return y;
     }
 
     public String getXString() {
-        return Integer.toString(x);
+        return Double.toString(x*1000);
     }
 
     public String getYString() {
-        return Integer.toString(y);
+        return Double.toString(y*1000);
     }
 
     public void addVertex(Vertex vertex) {
@@ -40,11 +40,11 @@ public class Coordinate {
     public String toString() {
         return this.x + ", " + this.y;
     }
-    public void setX(int x) {
+    public void setX(double x) {
         this.x = x;
     }
 
-    public void setY(int y) {
+    public void setY(double y) {
         this.y = y;
     }
 }
