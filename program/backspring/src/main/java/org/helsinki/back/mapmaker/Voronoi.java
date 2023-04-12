@@ -36,8 +36,6 @@ public class Voronoi {
     public void generate() {
         long startTime = System.currentTimeMillis();
 
-        // coordinates.sort((c1, c2) -> c1.getY() - c2.getY());
-        // System.out.println(coordinates.size());
         for (Coordinate c : coordinates) {
             events.add(new Event(c, Event.SEEDCOORD));
         }
@@ -50,12 +48,12 @@ public class Voronoi {
             count++;
             if (e.type == Event.SEEDCOORD) {
                 handleSeedPoint(e.getCoordinate());
-                String unfinishedMapString = visualizeUnfinishedMap();
+                // String unfinishedMapString = visualizeUnfinishedMap();
                 // System.out.println(unfinishedMapString);
                 // System.out.println();
             } else {
                 handleCircleEvent(e);
-                String unfinishedMapString = visualizeUnfinishedMap();
+                // String unfinishedMapString = visualizeUnfinishedMap();
                 // System.out.println(unfinishedMapString);
                 // System.out.println();
             }
@@ -73,8 +71,6 @@ public class Voronoi {
             if (edge.getNeighbor() != null) {
                 edge.setStart(edge.getNeighbor().getEnd());
                 edge.setNeighbor(null);
-                // System.out.println("edge from " + edge.getStartX() + ", " + edge.getStartY()
-                // + " to " + edge.getEndX() + ", " + edge.getEndY());
             }
         }
     }
@@ -83,11 +79,9 @@ public class Voronoi {
         String edgeString = "";
         for (Edge edge : edges) {
             if (edge.getStartX() == null) {
-                System.out.println("no start");
                 break;
             }
             if (edge.getEndX() == null) {
-                System.out.println("no end");
                 break;
             }
             edgeString = edgeString + "<line x1='" + edge.getStartX() + "' y1='" + edge.getStartY() + "' x2='"
@@ -124,7 +118,6 @@ public class Voronoi {
      */
     public void handleSeedPoint(Coordinate coordinate) {
 
-        // System.out.println("Handling seed event at " + coordinate.toString());
         if (rootParabola == null) {
             rootParabola = new Parabola(coordinate);
             return;
@@ -140,7 +133,6 @@ public class Voronoi {
         Coordinate startCoord = new Coordinate(coordinate.getX(),
                 Calculator.getParabolaY(parabolaAbove.getCoordinate(), coordinate.getX(), currentY));
 
-        // System.out.println(startCoord.toString());
         Edge leftEdge = new Edge(startCoord, parabolaAbove.getCoordinate(), coordinate);
         Edge rightEdge = new Edge(startCoord, coordinate, parabolaAbove.getCoordinate());
 
@@ -160,11 +152,7 @@ public class Voronoi {
         parabolaAbove.getRightChild().setLeftChild(newPar2);
         parabolaAbove.getRightChild().setRightChild(newPar3);
 
-        // check circle events
-        // System.out.print("par 1: ");
         conditionalAddCircleEvent(newPar1);
-        // System.out.println();
-        // System.out.print("par 3:");
         conditionalAddCircleEvent(newPar3);
     }
 
@@ -175,8 +163,6 @@ public class Voronoi {
      */
     private void handleCircleEvent(Event event) {
         circleEvents++;
-        // System.out.println("Handling circle event at " +
-        // event.getCoordinate().toString());
         Parabola p1 = event.getParabola();
         Parabola leftParent = Parabola.getLeftParent(p1);
         Parabola rightParent = Parabola.getRightParent(p1);
@@ -230,12 +216,8 @@ public class Voronoi {
         p1.setParent(null);
         p1 = null;
 
-        // System.out.print("child 1: ");
         conditionalAddCircleEvent(child1);
-        // System.out.println();
-        // System.out.print("child 2: ");
         conditionalAddCircleEvent(child2);
-        // System.out.println();
     }
 
     /**
@@ -286,9 +268,6 @@ public class Voronoi {
         e.setParabola(b);
         b.setEvent(e);
         events.add(e);
-
-        // System.out.println("circle event at " + circleCoord.toString() + " from
-        // parabola " + b.getCoordinate().toString());
     }
 
     /**
@@ -344,8 +323,6 @@ public class Voronoi {
         double b2 = -2.0 * xRight / dp2;
         double c2 = 1.0 * (xRight * xRight + yRight * yRight - currentY * currentY) / dp2;
 
-        // System.out.println(a1 + ", " + a2 + ", " + b1 + ", " + b2 + ", " + c1 + ", "
-        // + c2);
         double a = a1 - a2;
         double b = b1 - b2;
         double c = c1 - c2;
@@ -354,7 +331,6 @@ public class Voronoi {
         double candidate1 = (-1 * b + Math.sqrt(disc)) / (2 * a);
         double candidate2 = (-1 * b - Math.sqrt(disc)) / (2 * a);
 
-        // System.out.println("candidates: " + candidate1 + ", " + candidate2);
         if (yLeft > yRight) {
             return Math.max(candidate1, candidate2);
         }

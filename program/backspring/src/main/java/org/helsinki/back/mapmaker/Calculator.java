@@ -52,7 +52,6 @@ public class Calculator {
         double third = b.getY() - a.getY();
         double fourth = c.getX() - a.getX();
         double area = (first * second) - (third * fourth);
-        //System.out.println(area);
         if (area < 0)
             return -1;
         else if (area > 0)
@@ -69,9 +68,7 @@ public class Calculator {
         double y = (a.getSlope() * x) + a.getYIntercept();
 
         Coordinate c = new Coordinate(x,y);
-        /*if (Double.isNaN(x)) {
-            c.setY(Integer.MAX_VALUE);
-        }*/
+
         return c;
     }
 }
