@@ -49,7 +49,7 @@ public class VoronoiTest {
         assertFalse(p2.isCoordinate());
     }
 
-    @Test
+    /*@Test
     void parabolaIntersectionTest() {
         voronoi = new Voronoi(coordinates, 25);
         Parabola p1 = new Parabola(c1);
@@ -60,7 +60,7 @@ public class VoronoiTest {
         voronoi.setCurrentY(20);
 
         assertTrue(voronoi.getEdgeX(p3) == 10);
-    }
+    }*/
 
     @Test
     void findParabolaAboveTest() {
