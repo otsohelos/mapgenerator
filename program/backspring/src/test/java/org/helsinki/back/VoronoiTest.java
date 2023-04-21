@@ -22,9 +22,9 @@ public class VoronoiTest {
 
     @BeforeAll
     static void setup() {
-        c1 = new Coordinate(5, 15);
-        c2 = new Coordinate(15, 10);
-        c3 = new Coordinate(10, 18);
+        c1 = new Coordinate(.005, .015);
+        c2 = new Coordinate(.015, .010);
+        c3 = new Coordinate(.010, .018);
 
         coordinates = new ArrayList<>();
 
@@ -49,7 +49,7 @@ public class VoronoiTest {
         assertFalse(p2.isCoordinate());
     }
 
-    /*@Test
+    @Test
     void parabolaIntersectionTest() {
         voronoi = new Voronoi(coordinates, 25);
         Parabola p1 = new Parabola(c1);
@@ -58,9 +58,9 @@ public class VoronoiTest {
         p3.setLeftChild(p1);
         p3.setRightChild(p2);
         voronoi.setCurrentY(20);
-
-        assertTrue(voronoi.getEdgeX(p3) == 10);
-    }*/
+        System.out.println("edge: "+ voronoi.getEdgeX(p3));
+        assertTrue(voronoi.getEdgeX(p3) == 4.728408350668825);
+    }
 
     @Test
     void findParabolaAboveTest() {

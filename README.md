@@ -4,6 +4,8 @@ Tiralabra 2023 / Data structures and algorithms lab work, spring 2023
 
 ## Usage
 
+You need Java 17 or newer and Maven 3.9 to run this project.
+
 Start backend by using command
 
 ```mvn exec:java -Dexec.mainClass=org.helsinki.back.App```
@@ -33,6 +35,6 @@ Refreshing the page gives the user a new diagram.
 
 [Week 4](https://github.com/otsohelos/mapgenerator/blob/main/viikkoraportit/viikko4.md)
 
-<!--[Week 5](https://github.com/otsohelos/mapgenerator/blob/main/viikkoraportit/viikko5.md)
+[Week 5](https://github.com/otsohelos/mapgenerator/blob/main/viikkoraportit/viikko5.md)
 
-[Week 6](https://github.com/otsohelos/mapgenerator/blob/main/viikkoraportit/viikko6.md)-->
+<!--[Week 6](https://github.com/otsohelos/mapgenerator/blob/main/viikkoraportit/viikko6.md)-->

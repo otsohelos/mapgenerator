@@ -8,9 +8,9 @@ import org.junit.jupiter.api.Test;
 public class CoordinateCreationTest {
     @Test
     void coordinateCreationTest() {
-        Coordinate c = new Coordinate(10, 8);
+        Coordinate c = new Coordinate(.010, .008);
 
-        //assertTrue(c.getXString().equals("10"));
-        //assertTrue(c.getYString().equals("8"));
+        assertTrue(c.getXString().equals("10.0"));
+        assertTrue(c.getYString().equals("8.0"));
     }
 }
