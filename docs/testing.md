@@ -15,16 +15,16 @@ The front end is currently a minimal page that only displays the image generated
 
 ## Unit testing coverage
 
-Current unit test coverage is 82%. All tests are currently testing classes unter ```/mapmaker```.
+Current unit test coverage is 79%. All tests are currently testing classes under ```/mapmaker```, since that's where the main functionality of the program is.
 
 ![Test coverage visualization](coverage1.png)
 A visualization of the test coverage in /mapmaper.
 
 ## Empirical testing
 
-![Current front page](dots.png)
-An image of the current front page display, consisting only of the seed points.
+![Current front page](diagram.png)
+An image of the current front page display.
 
 ## Test data
 
-The current test data consists of minimal cases, e.g. a 25x25-size map with three seed points. 
+The current test data consists of elementary cases, e.g. a 25x25-size map with three seed points. 
