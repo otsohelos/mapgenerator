@@ -48,14 +48,8 @@ public class Voronoi {
             count++;
             if (e.type == Event.SEEDCOORD) {
                 handleSeedPoint(e.getCoordinate());
-                // String unfinishedMapString = visualizeUnfinishedMap();
-                // System.out.println(unfinishedMapString);
-                // System.out.println();
             } else {
                 handleCircleEvent(e);
-                // String unfinishedMapString = visualizeUnfinishedMap();
-                // System.out.println(unfinishedMapString);
-                // System.out.println();
             }
         }
 
@@ -72,42 +66,6 @@ public class Voronoi {
         System.out.println("Coordinates: " + coordinates.size());
         System.out.println("We have " + edges.size() + " edges");
         System.out.println(circleEvents + " circle events");
-    }
-
-    private String visualizeUnfinishedMap() {
-        String edgeString = "";
-        for (Edge edge : edges) {
-            if (edge.getStartX() == null) {
-                break;
-            }
-            if (edge.getEndX() == null) {
-                break;
-            }
-            edgeString = edgeString + "<line x1='" + edge.getStartX() + "' y1='" + edge.getStartY() + "' x2='"
-                    + edge.getEndX() + "' y2='" + edge.getEndY() + "' style='stroke:rgb(255,0,0);stroke-width:2' />";
-        }
-        String eventString = "";
-
-        for (Event e : handledEvents) {
-            String color = e.type == Event.CIRCLE ? "teal" : "black";
-
-            eventString = eventString
-                    + "<circle cx='"
-                    + e.getCoordinate().getX()
-                    + "' cy='"
-                    + e.getCoordinate().getY()
-                    + "' r='5' stroke='black' stroke-width='0' fill='"
-                    + color
-                    + "' />";
-        }
-
-        String mapString = "<svg  xmlns='http://www.w3.org/2000/svg' version='1.2' baseProfile='tiny' width='"
-                + mapSize
-                + "' height='"
-                + mapSize + "'>"
-                + edgeString
-                + "</svg>";
-        return mapString;
     }
 
     /**
