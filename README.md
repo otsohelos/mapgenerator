@@ -2,21 +2,32 @@
 Tiralabra 2023 / Data structures and algorithms lab work, spring 2023
 
 
-## Usage
+## Installation and usage
 
-You need Java 17 or newer and Maven 3.9 to run this project.
+### Backend
+You need [Java 17](https://www.java.com/en/download/) or newer and [Maven 3.9](https://maven.apache.org/download.cgi) to run the backend.
 
-Start backend by using command
+On a Linux machine, it might be necessary to manually install Maven 3.9, as only earlier versions seem to be available with apt. If necessary, please refer to this [guide on how to manually install Maven](https://medium.com/ci-cd-devops/error-error-executing-maven-error-java-lang-illegalstateexception-unable-to-load-cache-item-39e886a67216), changing the version to 3.9.1 or newer. 
+
+Once you have Java nad Maven, navigate to /program/backspring and start backend by using command
 
 ```mvn exec:java -Dexec.mainClass=org.helsinki.back.App```
 
-in the /program/backspring folder. If prompted, accept incoming connections. Backend should start in port 8080.
+If prompted, accept incoming connections. Backend should start in port 8080.
 
-Start frontend by using command
+### Frontend
+
+You need npm to run the frontend.
+
+To install the necessary dependencies, navigate to /program/front and enter command
+
+```npm i```
+
+Once that has run successfully, start frontend by using command
 
 ```npm start```
 
-in the /program/front folder. Frontend should start in port 3000, accessible at http://localhost:3000.
+Frontend should start in port 3000, accessible at http://localhost:3000.
 
 Refreshing the page gives the user a new diagram.
 
