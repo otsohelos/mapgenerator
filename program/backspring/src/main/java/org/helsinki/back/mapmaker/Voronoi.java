@@ -13,8 +13,6 @@ public class Voronoi {
     private ArrayList<Event> handledEvents;
 
     private double currentY;
-    private ArrayList<Vertex> vertices;
-    private int mapSize;
     private PriorityQueue<Event> events;
     private ArrayList<Edge> edges;
     private int circleEvents;
@@ -22,9 +20,7 @@ public class Voronoi {
     public Voronoi(ArrayList<Coordinate> coordinates, int mapSize) {
         this.rootParabola = null;
         this.coordinates = coordinates;
-        this.vertices = new ArrayList<>();
         this.handledEvents = new ArrayList<>();
-        this.mapSize = mapSize;
         this.events = new PriorityQueue<>();
         this.edges = new ArrayList<>();
         this.circleEvents = 0;
@@ -39,13 +35,11 @@ public class Voronoi {
         for (Coordinate c : coordinates) {
             events.add(new Event(c, Event.SEEDCOORD));
         }
-        int count = 0;
 
         while (!events.isEmpty()) {
             Event e = events.poll();
             handledEvents.add(e);
             currentY = e.getCoordinate().getY();
-            count++;
             if (e.type == Event.SEEDCOORD) {
                 handleSeedPoint(e.getCoordinate());
             } else {
@@ -74,7 +68,6 @@ public class Voronoi {
      * @param coordinate
      */
     public void handleSeedPoint(Coordinate coordinate) {
-
         if (rootParabola == null) {
             rootParabola = new Parabola(coordinate);
             return;
@@ -294,10 +287,6 @@ public class Voronoi {
         return Math.min(candidate1, candidate2);
     }
 
-    public ArrayList<Vertex> getVertices() {
-        return this.vertices;
-    }
-
     public ArrayList<Edge> getEdges() {
         return this.edges;
     }
@@ -347,5 +336,4 @@ public class Voronoi {
     public void setCurrentY(double y) {
         this.currentY = y;
     }
-
 }

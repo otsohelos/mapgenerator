@@ -17,7 +17,8 @@ public class MapImage {
         int mapSize = 1000;
         CoordinateCreator cc = new CoordinateCreator(mapSize);
 
-        ArrayList<Coordinate> coordinates = cc.createCoordinates();// new ArrayList<>();
+
+        ArrayList<Coordinate> coordinates = cc.createCoordinates();
 
         long startTime = System.currentTimeMillis();
 
@@ -26,10 +27,10 @@ public class MapImage {
         voronoi.generate();
 
         ArrayList<Edge> edges = voronoi.getEdges();
-        String vertexString = "";
+        String edgeString = "";
 
         for (Edge edge : edges) {
-            vertexString = vertexString
+            edgeString = edgeString
                     + "<line x1='"
                     + edge.getStartX()
                     + "' y1='"
@@ -56,14 +57,12 @@ public class MapImage {
                 + mapSize
                 + "'>"
                 + coordString
-                + vertexString
+                + edgeString
                 + "</svg>";
 
         long endTime = System.currentTimeMillis();
         System.out.println("Generating voronoi and map image took " + (endTime - startTime) + " ms.");
 
         return imageString;
-
     }
-
 }

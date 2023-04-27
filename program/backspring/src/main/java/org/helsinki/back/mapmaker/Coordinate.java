@@ -1,16 +1,12 @@
 package org.helsinki.back.mapmaker;
 
-import java.util.ArrayList;
-
 public class Coordinate {
     private double x;
     private double y;
-    private ArrayList<Vertex> vertices;
 
     public Coordinate(double x, double y) {
         this.x = x;
         this.y = y;
-        this.vertices = new ArrayList<>();
     }
 
     public double getX() {
@@ -27,14 +23,6 @@ public class Coordinate {
 
     public String getYString() {
         return Double.toString(y*1000);
-    }
-
-    public void addVertex(Vertex vertex) {
-        vertices.add(vertex);
-    }
-
-    public ArrayList<Vertex> getVertices() {
-        return vertices;
     }
 
     public String toString() {
