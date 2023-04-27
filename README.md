@@ -48,4 +48,4 @@ Refreshing the page gives the user a new diagram.
 
 [Week 5](https://github.com/otsohelos/mapgenerator/blob/main/viikkoraportit/viikko5.md)
 
-<!--[Week 6](https://github.com/otsohelos/mapgenerator/blob/main/viikkoraportit/viikko6.md)-->
+[Week 6](https://github.com/otsohelos/mapgenerator/blob/main/viikkoraportit/viikko6.md)

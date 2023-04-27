@@ -18,11 +18,13 @@ The front end is currently a minimal page that only displays the image generated
 Current unit test coverage is 79%. All tests are currently testing classes under ```/mapmaker```, since that's where the main functionality of the program is.
 
 ![Test coverage visualization](coverage1.png)
+
 A visualization of the test coverage in /mapmaper.
 
 ## Empirical testing
 
 ![Current front page](diagram.png)
+
 An image of the current front page display.
 
 ## Test data
