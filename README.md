@@ -5,15 +5,23 @@ Tiralabra 2023 / Data structures and algorithms lab work, spring 2023
 ## Installation and usage
 
 ### Backend
-You need [Java 17](https://www.java.com/en/download/) or newer and [Maven 3.9](https://maven.apache.org/download.cgi) to run the backend.
+You need [Java 17](https://www.java.com/en/download/) or newer and [Maven 3.9.1](https://maven.apache.org/download.cgi) to run the backend.
 
-On a Linux machine, it might be necessary to manually install Maven 3.9, as only earlier versions seem to be available with apt. If necessary, please refer to this [guide on how to manually install Maven](https://medium.com/ci-cd-devops/error-error-executing-maven-error-java-lang-illegalstateexception-unable-to-load-cache-item-39e886a67216), changing the version to 3.9.1 or newer. 
+On a Linux machine, it might be necessary to manually install Maven 3.9, as only earlier versions seem to be available with *apt*. If necessary, please refer to this [guide on how to manually install Maven](https://medium.com/ci-cd-devops/error-error-executing-maven-error-java-lang-illegalstateexception-unable-to-load-cache-item-39e886a67216), changing the version to 3.9.1 or newer. 
 
 Once you have Java nad Maven, navigate to /program/backspring and start backend by using command
 
 ```mvn exec:java -Dexec.mainClass=org.helsinki.back.App```
 
 If prompted, accept incoming connections. Backend should start in port 8080.
+
+In case this gives you *java.lang.ClassNotFoundException* or another Java error, try running
+
+```mvn clean install```
+
+and then
+
+```mvn exec:java -Dexec.mainClass=org.helsinki.back.App```
 
 ### Frontend
 
